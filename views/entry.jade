@@ -1,16 +1,38 @@
 extends layout
 
-mixin blogPostMixin(heading, date, author, body)
+mixin blogPostMixin(heading, date, author, body,image)
   div.blog-page
     h2= heading
     span.date Published on #{date}
     span.author Written by #{author}
     br
     br
+    img(src=image)
     p= body
+
+mixin comment(body, author)
+      div.comment-body
+        p #{body}
+        span #{author}
 
     
 block content
-    - var heading = entry.heading; var date = entry.date; var author = entry.author; var body = entry.body; 
-    +blogPostMixin(heading, date, author, body)
+    - var heading = entry.heading; var date = entry.date; var author = entry.author; var body = entry.body;var image=entry.special
+    -if(image!="no") 
+       +blogPostMixin(heading, date, author, body, image)
+    -else
+      +blogPostMixin(heading, date, author, body)
+    hr
+    div.comment
+      h5 Comments
+      .form-group
+        input.form-control(name="comment", placeholder="Type your comment here" required maxlength="100")
+        button.float-right.btn-primary.btn.btn-sm.post-comment Post
+      br
+      br
+      - for(var i=0;i<entry.comments.length;+i++)
+        - var body = entry.comments[i].body; var author = entry.comments[i].author;
+
+       +comment(body,author)
+      
   

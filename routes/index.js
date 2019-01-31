@@ -1,14 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/microblogging');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-
-
+var db_exported = require('../mongoose.js')
 var blogPostsCollection
 var blog_model = require("./blog_model.js");
-
+var db = db_exported.db
 db.once('open', function() {
     /*entry.save(function(err, entry) {
         if (err) return console.err(err)
