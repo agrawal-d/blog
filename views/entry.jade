@@ -2,7 +2,7 @@ extends layout
 
 mixin blogPostMixin(heading, date, author, body,image)
   div.blog-page
-    h2= heading
+    h2.entry= heading
     span.date Published on #{date}
     span.author Written by #{author}
     br
@@ -25,14 +25,19 @@ block content
     hr
     div.comment
       h5 Comments
+      .errorMessage
       .form-group
-        input.form-control(name="comment", placeholder="Type your comment here" required maxlength="100")
+        input.form-control.comment-box(name="comment", placeholder="Type your comment here" required maxlength="100")
         button.float-right.btn-primary.btn.btn-sm.post-comment Post
       br
       br
-      - for(var i=0;i<entry.comments.length;+i++)
-        - var body = entry.comments[i].body; var author = entry.comments[i].author;
+      .commentsList
+        - for(var i=0;i<entry.comments.length;+i++)
+          - var body = entry.comments[i].body; var author = entry.comments[i].author;
+          +comment(body,author)
 
-       +comment(body,author)
+        
+
+    
       
   

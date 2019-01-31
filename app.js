@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var entry = require('./routes/entry');
+var processComment = require('./routes/processComment');
 //var entry = require('./routes/entry.js')
 var app = express();
 
@@ -26,9 +27,10 @@ app.use(bodyParser.json());
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/entry*', entry)
-    //app.use("/entry*", entry)
-    // catch 404 and forward to error handler
+app.use('/entry*', entry);
+app.use('/processComment', processComment);
+//app.use("/entry*", entry)
+// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;

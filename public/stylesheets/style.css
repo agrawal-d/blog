@@ -70,3 +70,9 @@ span.author {
     margin-bottom: 30px;
     border-radius: 10px;
 }
+
+.errorMessage {
+    margin: 20px;
+    color: red;
+    margin-left: 0px;
+}
