@@ -1,0 +1,16 @@
+extends layout
+
+mixin blogPostMixin(heading, date, author, body)
+  div.blog-page
+    h2= heading
+    span.date Published on #{date}
+    span.author Written by #{author}
+    br
+    br
+    p= body
+
+    
+block content
+    - var heading = entry.heading; var date = entry.date; var author = entry.author; var body = entry.body; 
+    +blogPostMixin(heading, date, author, body)
+  

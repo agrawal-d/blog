@@ -1,0 +1,33 @@
+.main {
+    margin-top: 100px;
+}
+
+.blog-post {
+    padding: 30px;
+    background: whitesmoke;
+    margin: 00px 0px 50px 0px;
+}
+
+.blog-post h2 {
+    color: brown;
+    border-left: 10px solid brown;
+    padding-left: 10px;
+}
+
+.blog-post span {
+    color: grey;
+}
+
+span.date,
+span.author {
+    padding-right: 20px;
+}
+
+.blog-page {
+    padding-top: 50px;
+}
+
+.blog-page h2 {
+    font-size: 50px;
+    margin-bottom: 30px;
+}
