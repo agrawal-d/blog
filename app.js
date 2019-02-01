@@ -17,7 +17,20 @@ var mongoose = require('mongoose');
 
 var app = express();
 
-
+var mongoose = require('mongoose');
+var exports = module.exports
+var googleSchema = new mongoose.Schema({
+    id: Number,
+    name: String,
+    username: String,
+    googleId: Number,
+    photo: String,
+    special: Number
+})
+var googleUser = mongoose.model('googleUser', googleSchema);
+mongoose.connect('mongodb://localhost/microblogging');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
 
 // view engine setup
@@ -31,20 +44,108 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
+app.use(session({
+    secret: 'abcdefg',
+    resave: true,
     saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 var Account = require('./models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+//passport.serializeUser(Account.serializeUser());
+//passport.deserializeUser(Account.deserializeUser());
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
 
-mongoose.connect('mongodb://localhost/microblogging');
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+
+
+
+
+
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+        clientID: "586689178666-stcp8c2jh4ksf8k0bl0ijua9lh2r69m1.apps.googleusercontent.com",
+        clientSecret: "vIbrTWlZK40ESogFbsseOETs",
+        callbackURL: "http://localhost:3000/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        /*User.findOrCreate({ googleId: profile.id }, function(err, user) {
+            return cb(err, user);
+        });*/
+        console.log("Next step to find user")
+        googleUser.findOne({
+            googleId: profile.id
+        }, function(err, user) {
+            if (err) {
+                return cb(err)
+            } else {
+                if (!user) {
+                    console.log("No user")
+                    user = new googleUser({
+                        id: profile.id,
+                        googleId: profile.id,
+                        name: profile.displayName,
+                        username: profile.name.familyName,
+                        photo: "LOL",
+                        special: 1
+                    })
+                    user.save(function(err) {
+                        if (err) console.log(err)
+                        console.log("User saved")
+                        return cb(err, user)
+
+                    })
+                } else {
+                    console.log("Already Present user")
+                    return cb(err, user)
+                }
+
+            }
+        })
+        console.log(profile)
+    }
+));
+
+app.get('/auth/google',
+    passport.authenticate('google', {
+        scope: ['https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email'
+        ],
+        accessType: 'offline'
+    })
+
+
+);
+
+app.get('/auth/google/callback',
+    //passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google', {
+        scope: ['https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email'
+        ],
+        accessType: 'offline',
+        failireRedirect: '/login'
+    }),
+
+    function(req, res) {
+        // Successful authentication, redirect home.
+        console.log("USER DATA IS THIS>", req.user.username)
+        req.session.save(function() {
+            res.redirect('/');
+        });
+
+        // req.session.save()
+        // res.redirect('/')
+    });
+
 
 
 

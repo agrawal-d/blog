@@ -21,7 +21,7 @@ db.once('open', function() {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    console.log(req.body)
+    console.log("AT INDEX.JS>", req.user)
         //console.log(message);
     res.render('index', { title: 'Home', message: req.query.msg, blogData: blogPostsCollection, user: req.user });
 });
