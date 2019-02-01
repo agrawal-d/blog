@@ -25,13 +25,18 @@ block content
     hr
     div.comment
       h5 Comments
+
       .errorMessage
-      .form-group
-        input.form-control.comment-box(name="comment", placeholder="Type your comment here" required maxlength="100")
-        button.float-right.btn-primary.btn.btn-sm.post-comment Post
+      - if(user)
+        span Posting comment as 
+        span.username.user.hidden #{user.username}
+        .form-group
+          input.form-control.comment-box(name="comment", placeholder="Type your comment here" required maxlength="100")
+          button.float-right.btn-primary.btn.btn-sm.post-comment Post
       br
       br
       .commentsList
+        
         - for(var i=0;i<entry.comments.length;+i++)
           - var body = entry.comments[i].body; var author = entry.comments[i].author;
           +comment(body,author)

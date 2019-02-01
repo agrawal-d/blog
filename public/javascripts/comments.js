@@ -9,7 +9,7 @@ $(".post-comment").on("click", function() {
 
 function submitComment() {
     var comment = $(".comment-box").val();
-    var username = "hereisdx"
+    var username = $(".username").html();
     var entry = $(".entry").html()
     if (comment.length < 3) {
         $(".errorMessage").html("Comment must be of atleat 4 characters")

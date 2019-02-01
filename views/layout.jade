@@ -20,7 +20,7 @@ html
         #navbarNav.collapse.navbar-collapse
           ul.navbar-nav
             li.nav-item
-              a.nav-link(href='#')
+              a.nav-link(href='/')
                 | Home 
             li.nav-item
               -if(user)
@@ -28,7 +28,7 @@ html
               -else
                 a.nav-link(href='/login') Login
             li.nav-item
-              a.nav-link(href='#') About
+              a.nav-link(href='/register') Register
         span.navbar-text.float-right
           -if(user)
             span.text-info Welcome, #{user.username}

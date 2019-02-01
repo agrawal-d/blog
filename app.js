@@ -44,7 +44,7 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-mongoose.connect('mongodb://localhost/blog_accounts');
+mongoose.connect('mongodb://localhost/microblogging');
 
 
 
