@@ -23,9 +23,15 @@ html
               a.nav-link(href='#')
                 | Home 
             li.nav-item
-              a.nav-link(href='#') Login
+              -if(user)
+                a.nav-link(href='/logout') Logout
+              -else
+                a.nav-link(href='/login') Login
             li.nav-item
               a.nav-link(href='#') About
+        span.navbar-text.float-right
+          -if(user)
+            span.text-info Welcome, #{user.username}
       block content
     script(src="/javascripts/jquery.js")
     script(src="/javascripts/popper.js")

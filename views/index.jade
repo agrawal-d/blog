@@ -13,7 +13,7 @@ mixin blogPostMixin(heading, date, author, body, image)
 
     
 block content
-  - for (var i = 0; i< blogData.length; i++)
+ - for (var i = 0; i< blogData.length; i++)
     -var heading = blogData[i].heading;var date = blogData[i].date;var author = blogData[i].author;var body = blogData[i].body;var image = blogData[i].special;
     -if(image!="no") 
       +blogPostMixin(heading, date, author, body, image)
