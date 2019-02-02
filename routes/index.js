@@ -19,7 +19,9 @@ router.get('/', function(req, res, next) {
         if (err) return console.error(err);
         blogPostsCollection = blogPosts
     }).sort('-date')
-
+    if (!blogPostsCollection) {
+        res.render("index", { title: "ERROR", noBlog: true })
+    }
     console.log("AT INDEX.JS>", req.user)
         //console.log(message);
     res.render('index', { title: 'Home', message: req.query.msg, blogData: blogPostsCollection, user: req.user });
