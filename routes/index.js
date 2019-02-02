@@ -11,16 +11,15 @@ db.once('open', function() {
         if (err) return zsole.err(err)
         console.log("Done");
     });*/
-
-    blog_model.blogPost.find(function(err, blogPosts) {
-        if (err) return console.error(err);
-        blogPostsCollection = blogPosts
-    })
-
-});
+})
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    blog_model.blogPost.find(function(err, blogPosts) {
+        if (err) return console.error(err);
+        blogPostsCollection = blogPosts
+    }).sort('-date')
+
     console.log("AT INDEX.JS>", req.user)
         //console.log(message);
     res.render('index', { title: 'Home', message: req.query.msg, blogData: blogPostsCollection, user: req.user });

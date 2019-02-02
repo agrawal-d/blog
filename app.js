@@ -4,9 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var entry = require('./routes/entry');
+var publishBlog = require("./routes/publishBlog")
+
 var processComment = require('./routes/processComment');
 var session = require("express-session");
 var passport = require('passport');
@@ -42,8 +45,9 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(session({
     secret: 'abcdefg',
     resave: true,
@@ -89,12 +93,13 @@ passport.use(new GoogleStrategy({
             } else {
                 if (!user) {
                     console.log("No user")
+                        //console.log(profile._json.image.url)
                     user = new googleUser({
                         id: profile.id,
                         googleId: profile.id,
                         name: profile.displayName,
-                        username: profile.name.familyName,
-                        photo: "LOL",
+                        username: profile.name.givenName,
+                        photo: profile._json.image.url,
                         special: 1
                     })
                     user.save(function(err) {
@@ -124,6 +129,8 @@ app.get('/auth/google',
 
 
 );
+
+
 
 app.get('/auth/google/callback',
     //passport.authenticate('google', { failureRedirect: '/login' }),
@@ -155,6 +162,17 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/entry*', entry);
 app.use('/processComment', processComment);
+
+app.get("/newBlog", function(req, res) {
+    if (req.user) {
+        res.render('newBlog', { user: req.user, title: "Write a new blog post" })
+    } else {
+        res.redirect("/login")
+    }
+
+})
+app.use("/publishBlog", publishBlog);
+
 //app.use("/entry*", entry)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

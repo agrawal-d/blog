@@ -8,13 +8,14 @@ mixin blogPostMixin(heading, date, author, body, image)
     br
     br
     img(src=image)
-    p= body
+    p!=body
     a(href= 'entry?title='+heading) Read More
 
     
 block content
  - for (var i = 0; i< blogData.length; i++)
     -var heading = blogData[i].heading;var date = blogData[i].date;var author = blogData[i].author;var body = blogData[i].body;var image = blogData[i].special;
+    - if(body.length>1000) body = body.substring(0,1000) + "   \n<b> ... continued</b>"
     -if(image!="no") 
       +blogPostMixin(heading, date, author, body, image)
     -else

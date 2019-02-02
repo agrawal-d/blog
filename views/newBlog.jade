@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  extends layout
+  block content
+    h1 Write a new blog
+    div.alert.alert-warning Writing as #{user.username}
+    div.new-blog
+      form(action="/publishBlog" method="POST" enctype="multipart/form-data")
+        input.new-blog-title(type="text" name="heading" placeholder="Blog Heading" autocomplete="off" required)
+        textarea.new-blog-text(name="body", placeholder="Type the blog entry here" required)
+        hr
+        b Choose a blog image( optional )
+        input(type="file", name="image", accepts=".png, .jpg, .jpeg, .gif, .svg, .webm")
+        hr
+        button.btn.btn-info(type="submit") Publish

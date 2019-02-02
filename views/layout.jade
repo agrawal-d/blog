@@ -23,12 +23,16 @@ html
               a.nav-link(href='/')
                 | Home 
             li.nav-item
-              -if(user)
-                a.nav-link(href='/logout') Logout
-              -else
-                a.nav-link(href='/login') Login
+            -if(user)
+              li.nav-item
+                a.nav-link(href="/newBlog") Write
+            -if(user)
+              a.nav-link(href='/logout') Logout
+            -else
+              a.nav-link(href='/login') Login
             li.nav-item
-              a.nav-link(href='/register') Register
+              if(!user)
+                a.nav-link(href='/register') Register
         span.navbar-text.float-right
           -if(user)
             span.text-info Welcome, #{user.username}
