@@ -1,11 +1,13 @@
-## Microblogging
+# Microblogging
 
-**About this project**
+## **About this project**
+
 Microblogging is a simple web application that can be used as a blog. It supports reading, writing ( with images ) , and commenting on blog posts. It also supports login via passwords and Google OAuth 2.0.
 
 This project was made as the Round 2 Task for CRUx Inductions.
 
-**Installing and Running**
+## **Installing and Running**
+
 You must have the latest version of Node.js, MongoDB and Git installed.
  1. Cone this repo using `git clone git@github.com:hereisdx/blog.git`
  2. Enter the project using `cd blog`
@@ -16,5 +18,6 @@ You must have the latest version of Node.js, MongoDB and Git installed.
  7. That's it. Once you have populated the `blogpost` collection with the above sample data, you can follow the next step to start the server.
  8. To start the HTTP server, run `DEBUG=blog:* npm start`
 
-**Contributing**
+## **Contributing**
+
 Feel free to contact me or submit pull requests for bugs or new features.
